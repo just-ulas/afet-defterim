@@ -1,5 +1,5 @@
-// 112 ve konum. tarayıcı kendi başına arayamaz onu biliyosun
-// sms ve tel linki açar sen basarsın
+// 112 ve konum. tarayıcı kendi başına arayamaz
+import { oku } from './depo.js';
 
 export function konumAl() {
   return new Promise((ok, no) => {
@@ -16,8 +16,18 @@ export function konumAl() {
   });
 }
 
-export function mesajYap(loc) {
-  const satir = ['ACİL DURUM yardım lazım', 'saat: ' + new Date().toLocaleString('tr-TR')];
+export function mesajYap(loc, ekstra = {}) {
+  const p = oku('profil', {}) || {};
+  const durum = ekstra.durum || p.durum || 'yardim';
+  const bas = durum === 'iyiyim'
+    ? 'ACİL DURUM. Ben iyiyim, haber veriyorum.'
+    : 'ACİL DURUM. Yardıma ihtiyacım var.';
+
+  const satir = [bas, 'saat: ' + new Date().toLocaleString('tr-TR')];
+  if (p.ad) satir.push('ad: ' + p.ad);
+  if (p.kan) satir.push('kan: ' + p.kan);
+  if (p.not) satir.push('not: ' + p.not);
+
   if (loc) {
     satir.push('konum: ' + loc.lat.toFixed(5) + ', ' + loc.lon.toFixed(5));
     satir.push('harita: https://maps.google.com/?q=' + loc.lat + ',' + loc.lon);
@@ -25,7 +35,7 @@ export function mesajYap(loc) {
   } else {
     satir.push('konum alınamadı');
   }
-  satir.push('(afet-defterim uygulamasından)');
+  satir.push('(afet-defterim)');
   return satir.join('\n');
 }
 
@@ -34,7 +44,6 @@ export function ara112() {
 }
 
 export function sms112(body) {
-  // android ve ios farklıymış body= ile &body= denedim ikisi de idare eder
   window.location.href = 'sms:112?body=' + encodeURIComponent(body);
 }
 
@@ -52,14 +61,10 @@ export async function sosTam() {
   if (navigator.share) {
     try {
       await navigator.share({ title: 'acil', text: msg });
-    } catch (e) {
-      // iptal normal
-    }
+    } catch (e) {}
   }
 
   sms112(msg);
-  // iyi niyetli: sms açılsın diye 1.5 sn bekliyorum sonra ara
-  // bazen ikisi birden bozuluyo bazen de işe yarıyo
   setTimeout(() => ara112(), 1500);
   return { loc, msg };
 }
