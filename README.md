@@ -1,43 +1,50 @@
 # afet-defterim
 
 <p align="center">
-  <img src="docs/ekran/enkaz.svg" alt="enkaz modu 4 düğme" width="300"/>
-</p>
-
-<p align="center">
-  <img src="docs/ekran/sos-panel.svg" alt="sos detay" width="220"/>
+  <img src="docs/ekran/enkaz.svg" alt="enkaz modu" width="280"/>
   &nbsp;
-  <img src="docs/ekran/rehber.svg" alt="notlar" width="220"/>
+  <img src="docs/ekran/ataturk-cikartma.svg" alt="Atatürk anısına" width="72"/>
 </p>
 
 <p align="center">
-  <strong>enkaz modu · internetsiz acil</strong><br/>
-  🆘 yardım · 📍 konum · 🔊 ses · 💡 ışık<br/>
+  <strong>hazırlıklı olmak bir borçtur</strong><br/>
+  enkaz modu · çevrimdışı · dürüst · özgür<br/>
+  <em>Hayatta en hakiki mürşit ilimdir.</em><br/>
   <code>unlicense</code>
 </p>
 
 ---
 
-## ne işe yarar?
+## bu ne?
 
-telefonu enkaz / karanlık / panikte açınca **4 büyük düğme**. uzun metin yok.
+net kesildiğinde, enkazda, panikte telefonunda **işe yarayan** bir şey olsun diye yazıldı.
 
-| düğme | ne yapar |
-|--------|----------|
-| **YARDIM** | konum + hazır sms + `tel:112` (+ kayıtlı acil kişiye sms taslağı) |
-| **KONUM** | gps al, paylaş / kopyala |
-| **SES** | yüksek düdük (tekrar bas = kapat) |
-| **IŞIK** | flaş (torch) veya tam ekran beyaz |
+slogan değil. **dört düğme, offline not, acil kişi, düdük, ışık.**
 
-önce **profil**’den kan grubu, not, 2–3 acil kişi kaydet (telefonda kalır, net gerekmez).
+yalan yok: 112’yi senin yerine aradığını iddia etmez. onay sende — çünkü gerçek hayat öyle.
 
-alt sayfalar: notlar (enkaz, deprem sonrası, yangın, sel, çanta, çocuk kartı…), checklist, detaylı sos.
-
-**sınır:** tarayıcı senin yerine 112 aramaz; onay sende.
+sol altta küçük bir **Atatürk çıkartması** var. tıklanınca sözü çıkar. millete iş, gösteriş değil.
 
 ---
 
-## kurulum
+## enkaz modu
+
+| | |
+|--|--|
+| 🆘 **YARDIM** | basılı tut → konum + sms + 112 (+ acil kişi) |
+| 📍 **KONUM** | al · paylaş |
+| 🔊 **SES** | düdük |
+| 💡 **IŞIK** | flaş veya ekran |
+
+**profil** → kan grubu, not, 2–3 acil kişi (telefonda kalır).
+
+**araçlar** → mors SOS, periyodik sinyal, nefes, artçı günlüğü, pusula.
+
+**notlar** → enkaz altı, deprem, yangın, sel, çanta, çocuk kartı… hepsi cache’te.
+
+---
+
+## kur
 
 ```bash
 git clone https://github.com/just-ulas/afet-defterim.git
@@ -45,67 +52,29 @@ cd afet-defterim
 python3 -m http.server 8000
 ```
 
-| | adres |
-|--|--------|
-| enkaz (ana) | http://localhost:8000/**enkaz.html** |
-| profil | http://localhost:8000/profil.html |
-| notlar | http://localhost:8000/index.html |
+→ http://localhost:8000/**enkaz.html**  
+→ telefonda aynı wifi ile bilgisayar IP’si  
+→ chrome/safari: **ana ekrana ekle** (PWA v7)
 
-telefonda aynı wifi → `http://BILGISAYAR-IP:8000/enkaz.html`
-
-### pwa (sağlam taraf)
-
-- `manifest.json` → `start_url: enkaz.html`, standalone
-- service worker **v5**: precache kritik html/css/js/notlar
-- **stale-while-revalidate** + offline fallback → `enkaz.html`
-- güncelleme: yeni sürümde banner → **yenile** (`SKIP_WAITING`)
-
-android chrome / ios safari → ana ekrana ekle.
+önce `profil.html` doldur, sonra annenin telefonuna da kur.
 
 ---
 
-## sarsıntı algılama
+## duruş
 
-eski sürüm yürürken de tetiklenebiliyordu. artık:
+- **ilim** — sarsıntı filtresi, offline cache, dürüst sınırlar
+- **hazırlık** — checklist, çanta, çocuk kartı
+- **dayanışma** — unlicense; kopyala, dağıt, sat, bedava ver
+- **millet** — komşu da açabilsin diye sade Türkçe
 
-- yerçekimsiz ivme tercih
-- tepe (peak) sayımı — tek adım ≈ 1 tepe → reddedilir
-- süre eşiği (sustained)
-- modlar: `hassas` / `normal` / **`sert`** (enkaz varsayılanı)
-
-hâlâ sismograf değil; sadece telefon hareketi.
-
----
-
-## offline kritik içerik
-
-`notlar/` cache’te:
-
-- enkaz altı
-- deprem / sonrası
-- yangın, sel
-- ilk yardım, çanta
-- çocuk afet kartı
-- tahliye, iletişim
-
-`profil.html` → kan grubu, alerji notu, acil kişiler.
-
----
-
-## ekranlar
-
-```text
-enkaz.html     ← ana (4 düğme)
-profil.html    ← kan / kişiler / not
-sos.html       ← detaylı düdük + sensör
-index.html     ← rehber notları
-checklist.html ← hazırlık listeleri
-```
+detay: [docs/DURUS.md](docs/DURUS.md)
 
 ---
 
 ## uyarı
 
-112 sadece gerçek acilde. bu resmi AFAD uygulaması değil.
+112 yalnızca gerçek acilde. resmi kurum talimatı her zaman öncelikli.
+
+bu bir vatandaş işi. AFAD yerine geçmez — **yanında durur.**
 
 [unlicense](LICENSE)
