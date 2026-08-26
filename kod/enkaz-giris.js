@@ -1,9 +1,10 @@
 /**
- * enkaz modu — 4 düğme, az dikkat, çok dokunma
+ * enkaz modu — 4 düğme
+ * YARDIM: 1.2 sn basılı tut (yanlış basış engeli)
  */
 import { dudukBas, dudukBirak, otomatikDuduk } from './ses.js';
 import { sarsintiAc } from './sarsinti.js';
-import { sosTam, konumAl, mesajYap, sms112 } from './acil.js';
+import { sosTam, konumAl, mesajYap } from './acil.js';
 import { liste as kontakListe, sehirDisiKisi, smsLink } from './kontaklar.js';
 import { oku } from './depo.js';
 import { formatKonum, googleMaps } from './konum-format.js';
@@ -12,11 +13,17 @@ import { titres } from './titresim-desen.js';
 import { onlineMi, onlineDinle } from './cevrimdisi-kuyruk.js';
 import { registerPWA } from './pwa.js';
 import { isikAc, isikKapat, isikDurum } from './isik.js';
+import { basiliTut } from './geri-sayim.js';
+import { artciEkle } from './artci-gunluk.js';
+import { wakeAc } from './wake.js';
 
 const durum = document.getElementById('durum');
 const btnSes = document.getElementById('btnSes');
 const btnIsik = document.getElementById('btnIsik');
+const btnYardim = document.getElementById('btnYardim');
+const holdBar = document.getElementById('holdBar');
 let sesAcik = false;
+let yardimKilit = false;
 
 function yaz(t) {
   if (durum) durum.textContent = t || '';
@@ -41,29 +48,43 @@ function profilOzeti() {
 }
 
 async function yardim() {
+  if (yardimKilit) return;
+  yardimKilit = true;
   yaz('yardım hazırlanıyor…');
   titres('sos');
   try {
     await sosTam();
-    // acil kişilere de sms taslağı (ilk kişi)
     const k = sehirDisiKisi() || kontakListe()[0];
     if (k && k.tel) {
       const loc = await konumAl().catch(() => null);
       let msg = mesajYap(loc);
-      const p = oku('profil', {}) || {};
-      if (p.kan) msg += '\nkan grubu: ' + p.kan;
-      if (p.not) msg += '\nnot: ' + p.not;
-      msg = 'ACİL DURUM. ' + (p.durum === 'iyiyim' ? 'Ben iyiyim ama haber veriyorum.\n' : 'Yardıma ihtiyacım var.\n') + msg;
-      // biraz bekle 112 sms açılsın diye, sonra kişi
       setTimeout(() => {
         const link = smsLink(k, msg);
         if (link) window.location.href = link;
       }, 2500);
     }
-    yaz('sms / ara ekranı — sen onayla');
+    yaz('sms / ara — sen onayla');
   } catch (e) {
     yaz('hata: ' + (e.message || e));
+  } finally {
+    yardimKilit = false;
+    if (holdBar) holdBar.style.width = '0%';
   }
+}
+
+function yardimHoldBaslat(e) {
+  e.preventDefault();
+  if (yardimKilit) return;
+  basiliTut(btnYardim, 1200, (p) => {
+    if (holdBar) holdBar.style.width = (p * 100) + '%';
+    yaz('yardım ' + Math.ceil((1 - p) * 1.2) + '…');
+  }).then(() => {
+    if (holdBar) holdBar.style.width = '100%';
+    return yardim();
+  }).catch(() => {
+    if (holdBar) holdBar.style.width = '0%';
+    yaz('iptal — basılı tut');
+  });
 }
 
 async function konumGoster() {
@@ -77,9 +98,8 @@ async function konumGoster() {
       try { await navigator.share({ title: 'konumum', text: msg }); } catch {}
     } else if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(msg);
-      yaz(t + ' · panoya kopyalandı');
+      yaz(t + ' · kopyalandı');
     }
-    // harita linki opsiyonel
     const maps = googleMaps(loc);
     if (maps && confirm(t + '\n\nharitayı aç?')) {
       window.open(maps, '_blank');
@@ -95,7 +115,7 @@ function sesToggle(e) {
     dudukBas();
     sesAcik = true;
     btnSes.classList.add('aktif');
-    yaz('ses açık — tekrar bas durdur');
+    yaz('ses açık');
     titres('cift');
   } else {
     dudukBirak();
@@ -113,14 +133,14 @@ async function isikToggle() {
   } else {
     const ok = await isikAc();
     btnIsik.classList.add('aktif');
-    yaz(ok === 'torch' ? 'flaş açık' : 'ekran ışığı açık — tekrar bas kapat');
+    yaz(ok === 'torch' ? 'flaş açık' : 'ekran ışığı');
   }
 }
 
-// sarsıntı: enkazdayken sadece güçlü sarsıntıda ses (gelişmiş filtre)
 const sensor = sarsintiAc(
   () => {},
   (sev) => {
+    artciEkle(sev, 'otomatik');
     if (sev >= 3) {
       yaz('sert sarsıntı — ses');
       otomatikDuduk(6000);
@@ -130,32 +150,19 @@ const sensor = sarsintiAc(
   { mod: 'sert', minPeak: 3, minDurationMs: 400 }
 );
 
-document.getElementById('btnYardim').onclick = yardim;
+btnYardim.addEventListener('pointerdown', yardimHoldBaslat);
 document.getElementById('btnKonum').onclick = konumGoster;
 btnSes.addEventListener('click', sesToggle);
 btnIsik.onclick = isikToggle;
 
-// uzun basış ses için de çalışsın
-btnSes.addEventListener('touchstart', e => {
-  if (!sesAcik) { e.preventDefault(); dudukBas(); sesAcik = true; btnSes.classList.add('aktif'); yaz('ses'); }
-}, { passive: false });
-btnSes.addEventListener('touchend', () => {
-  // toggle mantığı click'te; burada bırakma ile kesme istemiyoruz enkazda
-});
-
 registerPWA();
+wakeAc(); // enkazda ekran kapansın istemeyiz
 guncelleUst();
 setInterval(guncelleUst, 30000);
 onlineDinle(() => guncelleUst());
 
-// sensörü sessizce dene (izin isterse kullanıcı jesti lazım olabilir)
 sensor.enable().then(ok => {
-  if (ok) yaz('hazır');
-  else yaz('hazır · sensör için bir yere dokun');
+  if (ok) yaz(profilOzeti() || 'hazır · yardım için basılı tut');
+  else yaz('hazır · dokun + yardım basılı tut');
 });
-document.body.addEventListener('click', () => {
-  sensor.enable();
-}, { once: true });
-
-const o = profilOzeti();
-if (o) yaz(o);
+document.body.addEventListener('click', () => { sensor.enable(); }, { once: true });

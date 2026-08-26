@@ -38,10 +38,17 @@ body.enkaz{
   font-weight:800;
   letter-spacing:.04em;
   box-shadow:0 6px 0 rgba(0,0,0,.4);
+  position:relative;
+  overflow:hidden;
 }
 .kare:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.4)}
 .ikon{font-size:2.8rem;line-height:1}
 .kelime{font-size:1.25rem}
+.ipucu{font-size:.7rem;font-weight:500;opacity:.85}
+.hold-bar{
+  position:absolute;left:0;bottom:0;height:6px;width:0%;
+  background:rgba(255,255,255,.85);transition:none;
+}
 .yardim{background:#dc2626;color:#fff}
 .konum{background:#1d4ed8;color:#fff}
 .ses{background:#ca8a04;color:#1c1000}
