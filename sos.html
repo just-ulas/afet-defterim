@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#5c0000">
+<title>sos - afet defterim</title>
+<link rel="stylesheet" href="stil/sos.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+<div id="ust">hazır... sanırım</div>
+
+<h1>sos</h1>
+<p class="alt">salla → düdük · bas → 112 ekranı (sen onayla)</p>
+
+<div class="kutu">
+  <div>sensör: <b id="s1">kapalı</b></div>
+  <div>seviye: <b id="s2">0</b></div>
+  <button type="button" id="btnSens">sensörü aç</button>
+</div>
+
+<button type="button" id="btnDud" class="dud">DÜDÜK<br><small>basılı tut</small></button>
+
+<button type="button" id="btnSos" class="sos">SOS<br><small>konum + sms + ara</small></button>
+
+<div class="grid">
+  <button type="button" id="btnKonum">konum</button>
+  <button type="button" id="btnSms">sms taslak</button>
+  <button type="button" id="btnPaylas">paylaş</button>
+  <button type="button" id="btnTitre">titre</button>
+</div>
+
+<p class="not">bluetooth ile rastgele telefona mesaj webden olmuyo. paylaşıma yönlendirdim. detay kodun içinde.</p>
+
+<div id="log"></div>
+<p class="dip"><a href="index.html">notlara dön</a> · unlicense</p>
+
+<script type="module" src="kod/sos-giris.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "afet defterim",
+  "short_name": "afet",
+  "description": "internetsiz acil notlar düdük sos",
+  "start_url": "./sos.html",
+  "display": "standalone",
+  "background_color": "#1a0000",
+  "theme_color": "#5c0000",
+  "lang": "tr"
+}
