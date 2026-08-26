@@ -1,38 +1,43 @@
 # afet-defterim
 
 <p align="center">
-  <img src="docs/ekran/sos-panel.svg" alt="sos paneli" width="280"/>
+  <img src="docs/ekran/enkaz.svg" alt="enkaz modu 4 düğme" width="300"/>
+</p>
+
+<p align="center">
+  <img src="docs/ekran/sos-panel.svg" alt="sos detay" width="220"/>
   &nbsp;
-  <img src="docs/ekran/rehber.svg" alt="rehber" width="280"/>
+  <img src="docs/ekran/rehber.svg" alt="notlar" width="220"/>
 </p>
 
 <p align="center">
-  <img src="docs/ekran/akis.svg" alt="akış: sarsıntı → düdük → sos → 112" width="560"/>
-</p>
-
-<p align="center">
-  <strong>internetsiz acil durum notları + sos paneli</strong><br/>
-  düdük · sarsıntı algılama · konum · 112 yönlendirme · checklist<br/>
-  <code>unlicense</code> — ne istersen yap
+  <strong>enkaz modu · internetsiz acil</strong><br/>
+  🆘 yardım · 📍 konum · 🔊 ses · 💡 ışık<br/>
+  <code>unlicense</code>
 </p>
 
 ---
 
-## bu ne işe yarıyor?
+## ne işe yarar?
 
-telefonda / tablette **net olmadan** açabileceğin bir afet defteri.
+telefonu enkaz / karanlık / panikte açınca **4 büyük düğme**. uzun metin yok.
 
-| ekran | ne yapar |
+| düğme | ne yapar |
 |--------|----------|
-| **sos.html** | büyük düdük, telefon sallanınca ses, sos butonu (konum + sms taslağı + `tel:112`) |
-| **index.html** | deprem, sel, yangın, çanta… kısa notlar |
-| **checklist.html** | hazırlık listeleri, işaretler telefonda kalır |
+| **YARDIM** | konum + hazır sms + `tel:112` (+ kayıtlı acil kişiye sms taslağı) |
+| **KONUM** | gps al, paylaş / kopyala |
+| **SES** | yüksek düdük (tekrar bas = kapat) |
+| **IŞIK** | flaş (torch) veya tam ekran beyaz |
 
-**bilerek sınırlı:** tarayıcı 112’yi senin yerini arayamaz. sos ekranı açar, onayı sen verirsin. bluetooth ile rastgele telefona mesaj webden olmaz — paylaş / sms yedek.
+önce **profil**’den kan grubu, not, 2–3 acil kişi kaydet (telefonda kalır, net gerekmez).
+
+alt sayfalar: notlar (enkaz, deprem sonrası, yangın, sel, çanta, çocuk kartı…), checklist, detaylı sos.
+
+**sınır:** tarayıcı senin yerine 112 aramaz; onay sende.
 
 ---
 
-## kurulum (30 saniye)
+## kurulum
 
 ```bash
 git clone https://github.com/just-ulas/afet-defterim.git
@@ -40,68 +45,67 @@ cd afet-defterim
 python3 -m http.server 8000
 ```
 
-| cihaz | adres |
-|--------|--------|
-| aynı bilgisayar | http://localhost:8000/sos.html |
-| telefon (aynı wifi) | http://**bilgisayar-ip**:8000/sos.html |
+| | adres |
+|--|--------|
+| enkaz (ana) | http://localhost:8000/**enkaz.html** |
+| profil | http://localhost:8000/profil.html |
+| notlar | http://localhost:8000/index.html |
 
-> `file://` ile açınca sensör / ses / fetch kapris yapabilir. sunucu kullan.
+telefonda aynı wifi → `http://BILGISAYAR-IP:8000/enkaz.html`
 
-### ana ekrana ekle (pwa hissi)
+### pwa (sağlam taraf)
 
-android chrome → menü → ana ekrana ekle  
-ios safari → paylaş → ana ekrana ekle
+- `manifest.json` → `start_url: enkaz.html`, standalone
+- service worker **v5**: precache kritik html/css/js/notlar
+- **stale-while-revalidate** + offline fallback → `enkaz.html`
+- güncelleme: yeni sürümde banner → **yenile** (`SKIP_WAITING`)
+
+android chrome / ios safari → ana ekrana ekle.
 
 ---
 
-## hızlı kullanım
+## sarsıntı algılama
 
-1. **sensörü aç** → izin ver  
-2. telefonu salla → düdük (eşik düşük tutuldu, adımda da tetiklenebilir)  
-3. **düdük** basılı tut  
-4. **sos** → konum + mesaj + 112 ekranları (sen onayla)
+eski sürüm yürürken de tetiklenebiliyordu. artık:
+
+- yerçekimsiz ivme tercih
+- tepe (peak) sayımı — tek adım ≈ 1 tepe → reddedilir
+- süre eşiği (sustained)
+- modlar: `hassas` / `normal` / **`sert`** (enkaz varsayılanı)
+
+hâlâ sismograf değil; sadece telefon hareketi.
+
+---
+
+## offline kritik içerik
+
+`notlar/` cache’te:
+
+- enkaz altı
+- deprem / sonrası
+- yangın, sel
+- ilk yardım, çanta
+- çocuk afet kartı
+- tahliye, iletişim
+
+`profil.html` → kan grubu, alerji notu, acil kişiler.
+
+---
+
+## ekranlar
 
 ```text
-sarsıntı ──► düdük ──► SOS ──► sms / tel:112
-                              (kullanıcı onayı)
-```
-
----
-
-## klasörler
-
-```text
-sos.html checklist.html index.html
-kod/           ses, sarsıntı, acil, md, depo, checklist…
-notlar/        markdown rehberler
-veri/          checklist json, ipuçları
-docs/ekran/    svg mockup (readme görselleri)
-stil/          css
-scripts/       ipucu üretici
-test/          küçük node testleri
-```
-
----
-
-## test
-
-```bash
-node test/md.test.js
-node test/konum-format.test.js
+enkaz.html     ← ana (4 düğme)
+profil.html    ← kan / kişiler / not
+sos.html       ← detaylı düdük + sensör
+index.html     ← rehber notları
+checklist.html ← hazırlık listeleri
 ```
 
 ---
 
 ## uyarı
 
-- 112’yi **sadece gerçek acilde** ara  
-- bu tıbbi / resmi AFAD kılavuzu değil  
-- resmi talimat her zaman öncelikli
+112 sadece gerçek acilde. bu resmi AFAD uygulaması değil.
 
----
-
-## lisans
-
-[unlicense](LICENSE) — kamu malı.
-
-issue aç, fork at, kır, dağıt.
+[unlicense](LICENSE)
