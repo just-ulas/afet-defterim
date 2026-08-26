@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#111">
 <title>araçlar · afet</title>
 <link rel="stylesheet" href="stil/ana.css">
+<link rel="stylesheet" href="stil/ataturk.css">
 <link rel="manifest" href="manifest.json">
 <style>
 .arac{display:block;width:100%;max-width:420px;margin:.5rem auto;padding:1rem;border:0;border-radius:12px;font-size:1.05rem;font-weight:700;text-align:left}
@@ -55,73 +56,39 @@ let pusula = null;
 
 document.getElementById('btnMors').onclick = async () => {
   if (morsCtrl) { morsCtrl.dur(); morsCtrl = null; yaz('mors iptal'); return; }
-  morsCtrl = await morsSOS({
-    tur: 3,
-    onDurum: yaz
-  });
+  morsCtrl = await morsSOS({ tur: 3, onDurum: yaz });
 };
-
 document.getElementById('btnPer').onclick = () => {
-  if (sinyalAcikMi()) {
-    periyodikDurdur();
-    yaz('periyodik sinyal kapalı');
-  } else {
-    periyodikBaslat({ herMs: 15000, calMs: 2500, onTick: yaz });
-    yaz('periyodik açık — 15 sn aralık');
-  }
+  if (sinyalAcikMi()) { periyodikDurdur(); yaz('periyodik kapalı'); }
+  else { periyodikBaslat({ herMs: 15000, calMs: 2500, onTick: yaz }); yaz('periyodik açık'); }
 };
-
 document.getElementById('btnNefes').onclick = () => {
   if (nefesCtrl) { nefesCtrl.dur(); nefesCtrl = null; yaz('nefes iptal'); return; }
   nefesCtrl = nefesBaslat((msg) => yaz(msg), 4);
 };
-
 document.getElementById('btnArtci').onclick = () => {
-  const sev = parseInt(prompt('şiddet 1-3 (tahmini)?', '2') || '2', 10);
+  const sev = parseInt(prompt('şiddet 1-3?', '2') || '2', 10);
   artciEkle(sev, 'manuel');
-  yaz(artciOzet() + '\n\n' + artciListe().slice(0, 5).map(x =>
-    new Date(x.t).toLocaleString('tr-TR') + ' sev' + x.sev
-  ).join('\n'));
+  yaz(artciOzet());
 };
-
 document.getElementById('btnPusula').onclick = async () => {
   if (pusula) { pusula.disable(); pusula = null; yaz('pusula kapalı'); return; }
   pusula = pusulaDinle((deg, ad) => yaz('pusula: ' + Math.round(deg) + '° ' + ad));
-  const ok = await pusula.enable();
-  yaz(ok ? 'pusula açık — telefonu yatay tut' : 'pusula izni/destek yok');
+  yaz((await pusula.enable()) ? 'pusula açık' : 'destek yok');
 };
-
 document.getElementById('btnWake').onclick = async () => {
-  if (wakeVarMi()) {
-    await wakeKapat();
-    yaz('wake lock kapalı');
-  } else {
-    const ok = await wakeAc();
-    yaz(ok ? 'ekran uyanık kalacak' : 'wake lock desteklenmiyor');
-  }
+  if (wakeVarMi()) { await wakeKapat(); yaz('wake kapalı'); }
+  else yaz((await wakeAc()) ? 'ekran açık kalacak' : 'destek yok');
 };
-
 document.getElementById('btnDisa').onclick = async () => {
   const p = oku('profil', {}) || {};
   const k = liste();
-  const txt = [
-    'afet-defterim profil',
-    'ad: ' + (p.ad || '-'),
-    'kan: ' + (p.kan || '-'),
-    'not: ' + (p.not || '-'),
-    'kişiler:',
-    ...k.map(x => '- ' + x.ad + ' ' + x.tel + (x.sehirDisi ? ' (şehir dışı)' : ''))
-  ].join('\n');
-  try {
-    await navigator.clipboard.writeText(txt);
-    yaz('panoya kopyalandı\n\n' + txt);
-  } catch {
-    yaz(txt);
-  }
+  const txt = ['afet-defterim profil', 'ad: ' + (p.ad || '-'), 'kan: ' + (p.kan || '-'), 'not: ' + (p.not || '-'), 'kişiler:', ...k.map(x => '- ' + x.ad + ' ' + x.tel)].join('\n');
+  try { await navigator.clipboard.writeText(txt); yaz('kopyalandı\n' + txt); } catch { yaz(txt); }
 };
-
 registerPWA();
 yaz(artciOzet());
 </script>
+<script type="module" src="kod/ataturk-cikartma.js"></script>
 </body>
 </html>
