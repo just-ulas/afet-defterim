@@ -1,6 +1,7 @@
 import { dudukBas, dudukBirak, otomatikDuduk } from './ses.js';
 import { sarsintiAc } from './sarsinti.js';
 import { sosTam, konumAl, mesajYap, sms112 } from './acil.js';
+import { sosSayArtir, sosSayOku } from './sayac.js';
 
 const ust = document.getElementById('ust');
 const logEl = document.getElementById('log');
@@ -47,6 +48,8 @@ dud.addEventListener('touchcancel', birak);
 document.getElementById('btnSos').onclick = async () => {
   yaz('sos...');
   log('sos başladı');
+  const kac = sosSayArtir();
+  log('sos sayacı ' + kac);
   try {
     await sosTam();
     yaz('sms/ara ekranı açıldı — sen onayla');
@@ -90,9 +93,8 @@ document.getElementById('btnTitre').onclick = () => {
   else alert('titreşim yok');
 };
 
-// sw
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
 
-log('panel açıldı');
+log('panel açıldı (sos sayacı: ' + sosSayOku() + ')');
