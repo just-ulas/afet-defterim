@@ -5,16 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>afet defterim</title>
 <link rel="stylesheet" href="stil/ana.css">
+<link rel="stylesheet" href="stil/ataturk.css">
 <link rel="manifest" href="manifest.json">
 </head>
 <body>
 <header>
   <h1>afet defterim</h1>
-  <p>internetsiz notlar · unlicense</p>
+  <p>hazırlıklı millet · internetsiz notlar · unlicense</p>
 </header>
 
 <p class="banner"><a href="enkaz.html">→ ENKAZ MODU (4 düğme)</a></p>
-<p class="banner" style="background:#991b1b"><a href="profil.html">profil / acil kişiler</a> · <a href="checklist.html">checklist</a> · <a href="sos.html">detay sos</a></p>
+<p class="banner" style="background:#991b1b"><a href="profil.html">profil / acil kişiler</a> · <a href="araclar.html">araçlar</a> · <a href="checklist.html">checklist</a></p>
 
 <nav>
   <a href="#" data-f="notlar/enkaz.md">enkaz altı</a>
@@ -34,7 +35,8 @@
 
 <main id="icerik">
   <p>acil için önce <a href="enkaz.html"><strong>enkaz modu</strong></a>.</p>
-  <p>üstten not seç — net yokken de okunur (pwa cache).</p>
+  <p>üstten not seç — net yokken de okunur.</p>
+  <p style="margin-top:1.5rem;font-size:.9rem;color:#666"><em>Hayatta en hakiki mürşit ilimdir.</em> — hazırlan, dayanış, ayakta kal.</p>
 </main>
 
 <script type="module" src="kod/okuyucu.js"></script>
@@ -42,5 +44,6 @@
 import { registerPWA } from './kod/pwa.js';
 registerPWA();
 </script>
+<script type="module" src="kod/ataturk-cikartma.js"></script>
 </body>
 </html>
