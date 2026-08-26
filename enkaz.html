@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>enkaz · afet</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="stil/enkaz.css">
+</head>
+<body class="enkaz">
+  <div id="sw-banner" class="sw-banner gizli" role="status">
+    <span>yeni sürüm var</span>
+    <button type="button" id="btnSwGuncelle">yenile</button>
+  </div>
+
+  <header class="enkaz-ust">
+    <span id="bat">·</span>
+    <span id="net">·</span>
+  </header>
+
+  <main class="dort">
+    <button type="button" id="btnYardim" class="kare yardim" aria-label="yardım">
+      <span class="ikon">🆘</span>
+      <span class="kelime">YARDIM</span>
+    </button>
+    <button type="button" id="btnKonum" class="kare konum" aria-label="konum">
+      <span class="ikon">📍</span>
+      <span class="kelime">KONUM</span>
+    </button>
+    <button type="button" id="btnSes" class="kare ses" aria-label="ses">
+      <span class="ikon">🔊</span>
+      <span class="kelime">SES</span>
+    </button>
+    <button type="button" id="btnIsik" class="kare isik" aria-label="ışık">
+      <span class="ikon">💡</span>
+      <span class="kelime">IŞIK</span>
+    </button>
+  </main>
+
+  <p id="durum" class="durum" aria-live="polite"></p>
+
+  <nav class="alt-link">
+    <a href="profil.html">profil</a>
+    <a href="sos.html">detay</a>
+    <a href="index.html">notlar</a>
+  </nav>
+
+  <div id="isik-overlay" class="isik-overlay gizli" aria-hidden="true"></div>
+
+  <script type="module" src="kod/enkaz-giris.js"></script>
+</body>
+</html>
