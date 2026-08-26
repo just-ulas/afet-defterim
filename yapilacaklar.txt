@@ -1,0 +1,9 @@
+- [ ] ikon çiz
+- [ ] daha iyi markdown parser
+- [x] düdük
+- [x] sarsıntı
+- [ ] gerçek bluetooth (olmuyo webde)
+- [ ] türkçe sesli yön tarif
+- [ ] karanlık tema ana sayfa
+- [ ] test et anne telefonunda
+- [ ] komşuya da kur
