@@ -1,0 +1,18 @@
+{
+  "id": "canta",
+  "baslik": "72 saat çanta",
+  "maddeler": [
+    {"id": "can-1", "metin": "su kişi başı 9+ litre"},
+    {"id": "can-2", "metin": "konserve + açacak"},
+    {"id": "can-3", "metin": "fener + pil"},
+    {"id": "can-4", "metin": "powerbank dolu"},
+    {"id": "can-5", "metin": "ilaç 1 hafta"},
+    {"id": "can-6", "metin": "ilk yardım"},
+    {"id": "can-7", "metin": "düdük"},
+    {"id": "can-8", "metin": "belge fotokopi poşette"},
+    {"id": "can-9", "metin": "nakit küçük kupür"},
+    {"id": "can-10", "metin": "battaniye / mylar"},
+    {"id": "can-11", "metin": "hijyen malzemesi"},
+    {"id": "can-12", "metin": "maske eldiven"}
+  ]
+}

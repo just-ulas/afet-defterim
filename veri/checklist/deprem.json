@@ -1,0 +1,16 @@
+{
+  "id": "deprem",
+  "baslik": "deprem hazırlık",
+  "maddeler": [
+    {"id": "dep-1", "metin": "ağır mobilyalar duvara sabit"},
+    {"id": "dep-2", "metin": "yatak kenarı camsız"},
+    {"id": "dep-3", "metin": "gaz vanası yeri biliniyor"},
+    {"id": "dep-4", "metin": "elektrik panosu yeri biliniyor"},
+    {"id": "dep-5", "metin": "yangın söndürücü kontrol"},
+    {"id": "dep-6", "metin": "acil çanta hazır"},
+    {"id": "dep-7", "metin": "su 3 gün stok"},
+    {"id": "dep-8", "metin": "iletişim planı yazıldı"},
+    {"id": "dep-9", "metin": "toplanma noktası seçildi"},
+    {"id": "dep-10", "metin": "aile tatbikatı yapıldı"}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "sel",
+  "baslik": "sel hazırlık",
+  "maddeler": [
+    {"id": "sel-1", "metin": "bölge riski öğrenildi"},
+    {"id": "sel-2", "metin": "değerli eşya yüksekte"},
+    {"id": "sel-3", "metin": "belgeler poşette"},
+    {"id": "sel-4", "metin": "tahliye rotası net"},
+    {"id": "sel-5", "metin": "çanta hazır"}
+  ]
+}

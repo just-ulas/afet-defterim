@@ -1,0 +1,12 @@
+{
+  "id": "yangin",
+  "baslik": "yangın güvenliği",
+  "maddeler": [
+    {"id": "yan-1", "metin": "duman dedektörü çalışıyor"},
+    {"id": "yan-2", "metin": "söndürücü erişilir yerde"},
+    {"id": "yan-3", "metin": "çıkış yolları açık"},
+    {"id": "yan-4", "metin": "mutfak battaniyesi veya söndürücü"},
+    {"id": "yan-5", "metin": "kablolar hasarsız"},
+    {"id": "yan-6", "metin": "toplanma noktası biliniyor"}
+  ]
+}
