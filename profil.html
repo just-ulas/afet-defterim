@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#1a1a1a">
 <title>profil · afet</title>
 <link rel="stylesheet" href="stil/ana.css">
+<link rel="stylesheet" href="stil/ataturk.css">
 <link rel="manifest" href="manifest.json">
 <style>
 form{max-width:420px;margin:1rem auto;padding:0 1rem}
@@ -24,7 +25,7 @@ h2{margin:1.5rem 0 .5rem;font-size:1.1rem;color:#b91c1c}
   <h1>profil</h1>
   <p>kan grubu · acil kişiler · not — telefonda kalır</p>
 </header>
-<p class="banner"><a href="enkaz.html">enkaz</a><a href="sos.html">sos</a><a href="index.html">notlar</a></p>
+<p class="banner"><a href="enkaz.html">enkaz</a> <a href="araclar.html">araçlar</a> <a href="index.html">notlar</a></p>
 
 <form id="frm">
   <label>adın</label>
@@ -49,7 +50,7 @@ h2{margin:1.5rem 0 .5rem;font-size:1.1rem;color:#b91c1c}
 
 <main style="max-width:420px;margin:0 auto;padding:1rem">
   <h2>acil kişiler (2–3)</h2>
-  <p style="font-size:.85rem;color:#666">sos / yardım basınca sms taslağı bu numaralara da açılabilir. şehir dışı biri ekle.</p>
+  <p style="font-size:.85rem;color:#666">şehir dışı biri ekle. yardım basınca sms taslağı açılabilir.</p>
   <div id="liste"></div>
   <label>ad</label>
   <input id="kAd" placeholder="anne / arkadaş">
@@ -116,5 +117,6 @@ document.getElementById('btnKisi').onclick = () => {
   }
 };
 </script>
+<script type="module" src="kod/ataturk-cikartma.js"></script>
 </body>
 </html>
