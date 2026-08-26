@@ -1,0 +1,14 @@
+{
+  "acil": {
+    "112": "tek acil çağrı (itfaiye ambulans polis jandarma)",
+    "110": "eski itfaiye (bazı yerlerde 112 yönlendirir)",
+    "155": "eski polis",
+    "156": "eski jandarma"
+  },
+  "diger": {
+    "184": "sağlık bakanlığı iletişim",
+    "183": "aile çalışma sosyal hizmetler",
+    "114": "zehir danışma (bölgesel)"
+  },
+  "not": "öncelik her zaman 112. diğerleri değişebilir."
+}

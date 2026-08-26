@@ -1,0 +1,13 @@
+{
+  "name": "afet-defterim",
+  "version": "0.4.0",
+  "private": true,
+  "description": "internetsiz acil durum notları düdük sos",
+  "license": "Unlicense",
+  "type": "module",
+  "scripts": {
+    "test": "node test/md.test.js && node test/konum-format.test.js",
+    "serve": "python3 -m http.server 8000",
+    "ipucu": "python3 scripts/cok-ipucu-uret.py"
+  }
+}
