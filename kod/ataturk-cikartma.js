@@ -1,4 +1,4 @@
-/** sol alta Atatürk çıkartması — tıklanınca kısa saygı metni */
+/** sol alt: 1881 - 193∞ */
 export function yerlestirAtaturk() {
   if (document.getElementById('ataturk-cikartma')) return;
 
@@ -14,9 +14,9 @@ export function yerlestirAtaturk() {
   btn.type = 'button';
   btn.id = 'ataturk-cikartma';
   btn.className = 'ataturk-cikartma';
-  btn.title = 'Mustafa Kemal Atatürk';
-  btn.setAttribute('aria-label', 'Mustafa Kemal Atatürk anısına');
-  btn.innerHTML = '<img src="docs/ekran/ataturk-cikartma.svg" alt="Atatürk" width="56" height="65">';
+  btn.title = '1881 — 193∞';
+  btn.setAttribute('aria-label', '1881 - 193 sonsuz');
+  btn.innerHTML = '<img src="docs/ekran/1881.svg" alt="1881 - 193∞" width="100" height="31">';
 
   btn.addEventListener('click', () => {
     const varMi = document.getElementById('ataturk-msg');
@@ -29,23 +29,25 @@ export function yerlestirAtaturk() {
     Object.assign(m.style, {
       position: 'fixed',
       left: '12px',
-      bottom: '78px',
-      maxWidth: '220px',
-      background: 'rgba(15,15,15,.92)',
-      color: '#f5f5f4',
-      padding: '0.65rem 0.75rem',
-      borderRadius: '10px',
-      fontSize: '0.78rem',
+      bottom: '48px',
+      maxWidth: '240px',
+      background: 'rgba(0,0,0,.92)',
+      color: '#fafafa',
+      padding: '0.65rem 0.8rem',
+      borderRadius: '8px',
+      fontSize: '0.8rem',
       lineHeight: '1.45',
       zIndex: '45',
-      fontFamily: 'system-ui,sans-serif',
-      boxShadow: '0 4px 20px rgba(0,0,0,.4)'
+      fontFamily: 'Georgia, serif',
+      boxShadow: '0 4px 20px rgba(0,0,0,.45)',
+      border: '1px solid #333'
     });
-    m.innerHTML = '<strong style="color:#fecaca">Mustafa Kemal Atatürk</strong><br>' +
-      '"Hayatta en hakiki mürşit ilimdir."<br>' +
-      '<span style="opacity:.75">bu uygulama: hazırlıklı olmak, dayanışmak, ayakta kalmak için.</span>';
+    m.innerHTML =
+      '<span style="letter-spacing:.06em">1881 — 193∞</span><br>' +
+      '<span style="font-family:system-ui,sans-serif;font-size:0.75rem;opacity:.85">' +
+      'Hayatta en hakiki mürşit ilimdir.</span>';
     document.body.appendChild(m);
-    setTimeout(() => m.remove(), 6000);
+    setTimeout(() => m.remove(), 5000);
   });
 
   document.body.appendChild(btn);

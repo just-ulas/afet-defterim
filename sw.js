@@ -1,5 +1,5 @@
-/* pwa v7 — atatürk çıkartması + duruş */
-const AD = 'afet-defter-v7';
+/* pwa v8 — 1881 çıkartma */
+const AD = 'afet-defter-v8';
 const LISTE = [
   './', './index.html', './enkaz.html', './sos.html', './profil.html',
   './checklist.html', './araclar.html',
@@ -12,7 +12,7 @@ const LISTE = [
   './kod/periyodik-sinyal.js', './kod/nefes.js', './kod/artci-gunluk.js',
   './kod/pusula.js', './kod/wake.js', './kod/ataturk-cikartma.js',
   './kod/batarya.js', './kod/cevrimdisi-kuyruk.js', './kod/titresim-desen.js',
-  './docs/ekran/ataturk-cikartma.svg',
+  './docs/ekran/1881.svg',
   './veri/checklist/deprem.json', './veri/checklist/yangin.json',
   './veri/checklist/canta.json', './veri/checklist/sel.json',
   './notlar/deprem.md', './notlar/deprem-sonrasi.md', './notlar/sel.md',
