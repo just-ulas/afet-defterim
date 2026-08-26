@@ -1,10 +1,21 @@
 {
   "name": "afet defterim",
-  "short_name": "afet",
-  "description": "internetsiz acil notlar düdük sos",
-  "start_url": "./sos.html",
+  "short_name": "enkaz",
+  "description": "internetsiz acil: enkaz modu düdük konum ışık sos",
+  "start_url": "./enkaz.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#1a0000",
-  "theme_color": "#5c0000",
-  "lang": "tr"
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "tr",
+  "categories": ["utilities", "health"],
+  "icons": [
+    {
+      "src": "docs/ekran/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
 }

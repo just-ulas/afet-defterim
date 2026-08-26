@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1a1a1a">
+<title>profil · afet</title>
+<link rel="stylesheet" href="stil/ana.css">
+<link rel="manifest" href="manifest.json">
+<style>
+form{max-width:420px;margin:1rem auto;padding:0 1rem}
+label{display:block;margin:.75rem 0 .25rem;font-size:.9rem;color:#444}
+input,select,textarea{width:100%;padding:.55rem;font-size:1rem;border:1px solid #ccc;border-radius:8px}
+textarea{min-height:80px}
+button.kaydet{margin-top:1rem;width:100%;padding:.8rem;background:#b91c1c;color:#fff;border:0;border-radius:10px;font-weight:700;font-size:1rem}
+.kisi{background:#f5f5f4;padding:.75rem;border-radius:8px;margin:.5rem 0;display:flex;justify-content:space-between;gap:.5rem;align-items:center}
+.kisi button{background:#444;color:#fff;border:0;border-radius:6px;padding:.3rem .6rem}
+h2{margin:1.5rem 0 .5rem;font-size:1.1rem;color:#b91c1c}
+.banner a{margin:0 .5rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>profil</h1>
+  <p>kan grubu · acil kişiler · not — telefonda kalır</p>
+</header>
+<p class="banner"><a href="enkaz.html">enkaz</a><a href="sos.html">sos</a><a href="index.html">notlar</a></p>
+
+<form id="frm">
+  <label>adın</label>
+  <input id="ad" autocomplete="name" placeholder="isteğe bağlı">
+  <label>kan grubu</label>
+  <select id="kan">
+    <option value="">—</option>
+    <option>0 Rh-</option><option>0 Rh+</option>
+    <option>A Rh-</option><option>A Rh+</option>
+    <option>B Rh-</option><option>B Rh+</option>
+    <option>AB Rh-</option><option>AB Rh+</option>
+  </select>
+  <label>varsayılan mesaj durumu</label>
+  <select id="durum">
+    <option value="yardim">yardıma ihtiyacım var</option>
+    <option value="iyiyim">ben iyiyim (haber veriyorum)</option>
+  </select>
+  <label>kendi notun (ilaç, alerji…)</label>
+  <textarea id="not" maxlength="400" placeholder="ör: penisilin alerjim var"></textarea>
+  <button type="submit" class="kaydet">kaydet</button>
+</form>
+
+<main style="max-width:420px;margin:0 auto;padding:1rem">
+  <h2>acil kişiler (2–3)</h2>
+  <p style="font-size:.85rem;color:#666">sos / yardım basınca sms taslağı bu numaralara da açılabilir. şehir dışı biri ekle.</p>
+  <div id="liste"></div>
+  <label>ad</label>
+  <input id="kAd" placeholder="anne / arkadaş">
+  <label>telefon</label>
+  <input id="kTel" type="tel" placeholder="05xx…">
+  <label><input type="checkbox" id="kDisi"> şehir dışı (öncelikli)</label>
+  <button type="button" class="kaydet" id="btnKisi" style="background:#444">kişi ekle</button>
+</main>
+
+<script type="module">
+import { oku, yaz } from './kod/depo.js';
+import { liste, ekle, silKontak } from './kod/kontaklar.js';
+
+const p = oku('profil', {}) || {};
+document.getElementById('ad').value = p.ad || '';
+document.getElementById('kan').value = p.kan || '';
+document.getElementById('durum').value = p.durum || 'yardim';
+document.getElementById('not').value = p.not || '';
+
+document.getElementById('frm').onsubmit = e => {
+  e.preventDefault();
+  yaz('profil', {
+    ad: document.getElementById('ad').value.trim(),
+    kan: document.getElementById('kan').value,
+    durum: document.getElementById('durum').value,
+    not: document.getElementById('not').value.trim()
+  });
+  alert('kaydedildi (bu telefonda)');
+};
+
+function ciz() {
+  const el = document.getElementById('liste');
+  const L = liste();
+  el.innerHTML = L.length ? '' : '<p style="color:#888">henüz kimse yok</p>';
+  L.forEach(k => {
+    const d = document.createElement('div');
+    d.className = 'kisi';
+    d.innerHTML = '<span><b>' + (k.ad || '?') + '</b> ' + (k.tel || '') +
+      (k.sehirDisi ? ' · şehir dışı' : '') + '</span>';
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = 'sil';
+    b.onclick = () => { silKontak(k.id); ciz(); };
+    d.appendChild(b);
+    el.appendChild(d);
+  });
+}
+ciz();
+
+document.getElementById('btnKisi').onclick = () => {
+  if (liste().length >= 5) { alert('en fazla 5 kişi'); return; }
+  try {
+    ekle({
+      ad: document.getElementById('kAd').value,
+      tel: document.getElementById('kTel').value,
+      sehirDisi: document.getElementById('kDisi').checked
+    });
+    document.getElementById('kAd').value = '';
+    document.getElementById('kTel').value = '';
+    document.getElementById('kDisi').checked = false;
+    ciz();
+  } catch (err) {
+    alert(err.message);
+  }
+};
+</script>
+</body>
+</html>
